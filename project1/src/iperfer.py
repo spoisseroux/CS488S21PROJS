@@ -1,4 +1,4 @@
-#CLIENT
+#CLIENT AND SERVER
 import time
 import sys
 import socket
@@ -21,8 +21,8 @@ def getIP():
         print("IP : ",host_ip) 
         return host_ip
     except: 
-        print("\n") 
-        
+        print("Unable to get Hostname and IP") 
+
 def runClient():        
 
     #parse command line arguments
@@ -60,13 +60,48 @@ def runClient():
     rate = (total_kb / 1000) / timeSec
     rate = float("%0.3f" % (rate))
     print("sent=" + str(total_kb) + " KB rate=" + str(rate) + " Mbps")
+
+def runServer():
+    listen_port = int(sys.argv[2])
+    checkPort(listen_port)
+    host_name = getIP()
     
+    total_kb = 0
+    
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind((host_name, listen_port))
+    s.listen()
+    conn, addr = s.accept()
+    with conn:
+        start_time = time.time()
+        print('Connected by', addr)
+        while True:
+            data = conn.recv(1000)
+            total_kb = total_kb + 1
+            if not data:
+                break
+            conn.sendall(data)
+    end_time = time.time()
+    total_time = start_time - end_time
+    rate = (total_kb / 1000) / total_time
+    rate = float("%0.3f" % (rate))
+    print("received=" + str(total_kb) + " KB rate=" + str(rate) + " Mbps")
+
 #confirm correct amount of parameters
-if (len(sys.argv) != 4):
+if (len(sys.argv) != 4) and (len(sys.argv) != 3):
     print("Error: missing or additional arguments")
     quit()
     
-runClient()
-    
-    
-    
+#run server mode
+if (len(sys.argv) == 3):
+        if (sys.argv[1] == '-s'):
+            runServer()
+        else:
+            print("Error: missing or additional parameters")
+            quit()
+
+#run client mode
+if (len(sys.argv) == 4):
+    runClient()
+
+
