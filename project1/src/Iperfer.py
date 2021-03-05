@@ -105,3 +105,4 @@ if (len(sys.argv) == 4):
     runClient()
 
 
+start()
