@@ -3,14 +3,17 @@ import time
 import sys
 import socket
 
+#print to confirm command line arguments
+print('Number of arguments:', len(sys.argv), 'arguments.')
+print('Argument List:', str(sys.argv))
+
+#confirm server port in parameters
 def checkPort(port):
-    #confirm server port in parameters
     if port < 1024 or port > 65535:
         print("Error: port number must be in the range 1024 to 65535\n")
         quit()
 
 def getIP(): 
-    #get host ip
     try: 
         host_name = socket.gethostname() 
         host_ip = socket.gethostbyname(host_name) 
@@ -18,8 +21,7 @@ def getIP():
         print("IP : ",host_ip) 
         return host_ip
     except: 
-        print("Error: unable to get Hostname and IP") 
-        quit()
+        print("Unable to get Hostname and IP") 
 
 def runClient():        
 
@@ -60,14 +62,12 @@ def runClient():
     print("sent=" + str(total_kb) + " KB rate=" + str(rate) + " Mbps")
 
 def runServer():
-    #parse server params
     listen_port = int(sys.argv[2])
     checkPort(listen_port)
     host_name = getIP()
     
     total_kb = 0
     
-    #start server
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((host_name, listen_port))
     s.listen()
@@ -87,27 +87,22 @@ def runServer():
     rate = float("%0.3f" % (rate))
     print("received=" + str(total_kb) + " KB rate=" + str(rate) + " Mbps")
 
-def start():
+#confirm correct amount of parameters
+if (len(sys.argv) != 4) and (len(sys.argv) != 3):
+    print("Error: missing or additional arguments")
+    quit()
+    
+#run server mode
+if (len(sys.argv) == 3):
+        if (sys.argv[1] == '-s'):
+            runServer()
+        else:
+            print("Error: missing or additional parameters")
+            quit()
 
-    #print to confirm command line arguments to debug
-    print('Number of arguments:', len(sys.argv), 'arguments.')
-    print('Argument List:', str(sys.argv))
+#run client mode
+if (len(sys.argv) == 4):
+    runClient()
 
-    #confirm correct amount of parameters
-    if (len(sys.argv) != 4) and (len(sys.argv) != 3):
-        print("Error: missing or additional arguments")
-        quit()
-        
-    #run server mode
-    if (len(sys.argv) == 3):
-            if (sys.argv[1] == '-s'):
-                runServer()
-            else:
-                print("Error: missing or additional parameters")
-                quit()
-
-    #run client mode
-    if (len(sys.argv) == 4):
-        runClient()
 
 start()
