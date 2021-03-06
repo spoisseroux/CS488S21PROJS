@@ -63,7 +63,10 @@ def runServer():
     #parse server params
     listen_port = int(sys.argv[2])
     checkPort(listen_port)
-    host_name = getIP()
+
+    #do we not do dynamic ip get and only localhost?
+    #host_name = getIP()
+    host_name = '127.0.0.1'
 
     total_kb = 0
 
@@ -100,14 +103,19 @@ def start():
 
     #run server mode
     if (len(sys.argv) == 3):
-            if (sys.argv[1] == '-s'):
-                runServer()
-            else:
-                print("Error: missing or additional arguments")
-                sys.exit(1)
+        if (sys.argv[1] == '-s'):
+            runServer()
+        else:
+            print("Error: missing or additional arguments")
+            sys.exit(1)
 
     #run client mode
     if (len(sys.argv) == 4):
-        runClient()
+        #TEST5 CORNER CASE
+        if (sys.argv[1] == '-s'):
+            print("Error: missing or additional arguments")
+            sys.exit(1)
+        else:
+            runClient()
 
 start()
