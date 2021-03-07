@@ -34,8 +34,8 @@ def runClient():
 
     #connect
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    #s.connect((server_hostname, server_port))
-    s.connect(('127.0.0.1', server_port))
+    s.connect((server_hostname, server_port))
+    #s.connect(('127.0.0.1', server_port))
 
     #main program body
     while True:
@@ -45,7 +45,9 @@ def runClient():
 
         #sends the packet here
         s.sendall(b'0')
-        data = s.recv(1000)
+        
+        #is this the issue with task1?
+        #data = s.recv(1000)
 
         #keep track of kb sent
         total_kb = total_kb + 1
