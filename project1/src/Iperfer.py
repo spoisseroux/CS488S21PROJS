@@ -82,7 +82,7 @@ def runServer():
         #print('Connected by', addr)
         while True:
             #problem here?
-            data = conn.recv(1000)
+            #data = conn.recv(1000)
             total_kb = total_kb + 1
             if not data:
                 break
