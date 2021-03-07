@@ -47,7 +47,7 @@ def runClient():
         s.sendall(b'0')
         
         #is this the issue with task1? (it was)
-        #data = s.recv(1000)
+        data = s.recv(1000)
 
         #keep track of kb sent
         total_kb = total_kb + 1
@@ -82,7 +82,8 @@ def runServer():
         start_time = time.time()
         #print('Connected by', addr)
         while True:
-            data = conn.recv(1000)
+            #problem here?
+            #data = conn.recv(1000)
             total_kb = total_kb + 1
             if not data:
                 break
