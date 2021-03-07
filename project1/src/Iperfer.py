@@ -46,7 +46,7 @@ def runClient():
         #sends the packet here
         s.sendall(b'0')
         
-        #is this the issue with task1?
+        #is this the issue with task1? (it was)
         #data = s.recv(1000)
 
         #keep track of kb sent
