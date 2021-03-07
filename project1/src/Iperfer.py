@@ -34,7 +34,8 @@ def runClient():
 
     #connect
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    s.connect((server_hostname, server_port))
+    #s.connect((server_hostname, server_port))
+    s.connect(('127.0.0.1', server_port))
 
     #main program body
     while True:
