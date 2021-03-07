@@ -30,7 +30,6 @@ def runClient():
     timeSec = int(sys.argv[3])
     start_time = time.time()
     total_kb = 0
-    chunk = bytearray(1000)
 
     #connect
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -44,7 +43,7 @@ def runClient():
         elapsed_time = current_time - start_time
 
         #sends the packet here
-        s.send(chunk)
+        s.send(bytearray(1000))
         
         #is this the issue with task1? (it was)
         #data = s.recv(1000)
@@ -83,7 +82,7 @@ def runServer():
         #print('Connected by', addr)
         while True:
             #problem here?
-            #data = conn.recv(1000)
+            data = conn.recv(1000)
             total_kb = total_kb + 1
             if not data:
                 break
