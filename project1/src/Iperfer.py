@@ -57,7 +57,7 @@ def runClient():
 
     s.close()
     #print statistics
-    rate = (total_kb / 1000) / timeSec
+    rate = (total_kb / 125) / timeSec
     rate = float("%0.3f" % (rate))
     print("sent=" + str(total_kb) + " KB rate=" + str(rate) + " Mbps")
 
@@ -89,7 +89,7 @@ def runServer():
             #conn.sendall(data)
     end_time = time.time()
     total_time = start_time - end_time
-    rate = (total_kb / 1000) / total_time
+    rate = (total_kb / 125) / total_time
     rate = float("%0.3f" % (rate))
     print("received=" + str(total_kb) + " KB rate=" + str(rate) + " Mbps")
 
