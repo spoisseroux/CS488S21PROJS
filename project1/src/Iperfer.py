@@ -87,7 +87,7 @@ def runServer():
             total_kb = total_kb + 1
             if not data:
                 break
-            conn.sendall(data)
+            #conn.sendall(data)
     end_time = time.time()
     total_time = start_time - end_time
     rate = (total_kb / 1000) / total_time
