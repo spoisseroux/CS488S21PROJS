@@ -1,4 +1,5 @@
-#CLIENT AND SERVER
+#IPERFER.PY
+#SPENCER POISSEROUX, LAURIE DELINOIS, MARCUS WONG
 import time
 import sys
 import socket
@@ -7,18 +8,6 @@ def checkPort(port):
     #confirm server port in parameters
     if port <= 1024 or port >= 65535:
         print("Error: port number must be in the range 1024 to 65535")
-        sys.exit(1)
-
-def getIP():
-    #get host ip
-    try:
-        host_name = socket.gethostname()
-        host_ip = socket.gethostbyname(host_name)
-        #print("Hostname :  ",host_name)
-        #print("IP : ",host_ip)
-        return host_ip
-    except:
-        print("Error: unable to get Hostname and IP")
         sys.exit(1)
 
 def runClient():
@@ -34,7 +23,6 @@ def runClient():
     #connect
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.connect((server_hostname, server_port))
-    #s.connect(('127.0.0.1', server_port))
 
     #main program body
     while True:
@@ -44,9 +32,6 @@ def runClient():
 
         #sends the packet here
         s.send(bytearray(1000))
-        
-        #is this the issue with task1? (it was)
-        #data = s.recv(1000)
 
         #keep track of kb sent
         total_kb = total_kb + 1
@@ -66,9 +51,7 @@ def runServer():
     listen_port = int(sys.argv[2])
     checkPort(listen_port)
 
-    #do we not do dynamic ip get and only localhost?
-    #host_name = getIP()
-    host_name = '127.0.0.1'
+    host_name = '127.0.0.1' #localhost
 
     total_kb = 0
 
@@ -81,7 +64,6 @@ def runServer():
         start_time = time.time()
         #print('Connected by', addr)
         while True:
-            #problem here?
             data = conn.recv(1000)
             total_kb = total_kb + 1
             if not data:
@@ -95,6 +77,7 @@ def runServer():
 
 def start():
 
+    #debug
     #print to confirm command line arguments to debug
     #print('Number of arguments:', len(sys.argv), 'arguments.')
     #print('Argument List:', str(sys.argv))
