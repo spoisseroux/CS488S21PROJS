@@ -1,3 +1,4 @@
+Q2.
 If we want h1 to communicate with h4, we see that it would have to follow a path that includes
 L1, L2, and L3. From this we can estimate that both the latency and throughput of the path between
 h1 and h4 would be at least the summation of the latencies and throughputs of these individual paths.
@@ -11,3 +12,65 @@ L1 server recv rate/client send rate = 20.264 Mbps / 23.854 Mbps
 L2 server recv rate/client send rate = 36.717 Mbps / 41.336 Mbps
 L3 server recv rate/client send rate = 30.78 Mbps / 34.04 Mbps
 h1 to h4 estimate avg server recv rate/client send rate = 87.761 Mbps / 99.12 Mbps
+
+
+Q3.
+As we add multiple hosts that are simutaneously connecting in our network, we predict an increase in latency
+and decrease in throughput as there is more traffic in the network. We can expect this trend as the number
+of simultaneously connected hosts increases. The only way this trend make not occur is if traffic is not on
+the same paths.
+
+h10 to h8 latency:
+--- 10.0.0.8 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19025ms
+rtt min/avg/max/mdev = 162.501/162.883/164.246/0.702 ms
+
+h1 to h4 latency:
+--- 10.0.0.4 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19010ms
+rtt min/avg/max/mdev = 162.517/163.014/163.900/0.605 ms
+
+h1 to h4 (non-simultaneous (Q2)) latency:
+--- 10.0.0.4 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19028ms
+rtt min/avg/max/mdev = 161.780/162.347/163.833/0.609 ms
+
+Here alone, we see an increase in latency as we have simultaneous connections that cross paths.
+
+h10 to h8 throughput statistics:
+received=16826 KB rate=4.991 Mbps
+sent=16222 KB rate=6.489 Mbps
+
+h1 to h4 throughput statistics:
+received=52792 KB rate=15.259 Mbps
+sent=48671 KB rate=19.468 Mbps
+
+h1 to h4 throughput statistics (non-simultaneous (Q2)):
+received=64516 KB rate=21.332 Mbps
+sent=56360 KB rate=22.544 Mbps
+
+Here too, we see a decrease in throughput rate when running simultaneous on the same paths when compared to runnning
+alone (like from Q2).
+
+
+Q4.
+
+Because h1-h4's path intersects with h5-h6's path at L2 we can estimate the throughput to be a bit lower
+and the latency a bit higher than if these tests were ran alone without interfering traffic. Though the 
+difference may not be drastic, it should still be apparent.
+
+avg rtt h1-h4: 162.916ms
+avg rtt h5-h6: 42.562ms
+recv/sent throughput h1-h4: 18.947 Mbps / 22.532 Mbps
+recv/sent throughput h5-h6: 20.58 Mbps / 23.743 Mbps
+
+Looking at the previous test's rtt and throughput when h1-h4 was ran non-simultaneously, we can see that
+the latency is a bit higher, and the throughput in a bit lower. Though, the difference is not as drastic
+compared to when h1-h4 is ran simultaneously as h10-h8, because h5-h6 is only running on one same L path
+as h1-h4, where as h10-h8 in running on 3 similar L paths as h1-h4.
+
+
+
+
+
+
