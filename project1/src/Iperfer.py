@@ -64,7 +64,7 @@ def runServer():
     checkPort(listen_port)
 
     #host_name = '127.0.0.1' #localhost
-    host_name = get_ip_address('eth0')  #dynamic ip get
+    host_name = getIP('eth0')  #dynamic ip get
     print("IP :  ",host_name) 
 
     total_kb = 0
