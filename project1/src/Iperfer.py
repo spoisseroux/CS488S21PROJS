@@ -64,7 +64,7 @@ def runServer():
     checkPort(listen_port)
     
     #get hnumber
-    print("Input which h1 servering from:")
+    print("Which node to run server from:")
     hNumber = input()
 
     #host_name = '127.0.0.1' #localhost
