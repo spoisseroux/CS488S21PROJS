@@ -62,9 +62,13 @@ def runServer():
     #parse server params
     listen_port = int(sys.argv[2])
     checkPort(listen_port)
+    
+    #get hnumber
+    print("Input which h1 servering from:")
+    hNumber = input()
 
     #host_name = '127.0.0.1' #localhost
-    host_name = getIP('eth0')  #dynamic ip get
+    host_name = getIP(hNumber+'-eth0')  #dynamic ip get
     print("IP :  ",host_name) 
 
     total_kb = 0
