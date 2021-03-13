@@ -3,24 +3,24 @@
 import time
 import sys
 import socket
+import fcntl
+import struct
+
 
 def checkPort(port):
     #confirm server port in parameters
     if port <= 1024 or port >= 65535:
         print("Error: port number must be in the range 1024 to 65535")
         sys.exit(1)
+        
 
-def getIP(): 
-    #get host ip
-    try: 
-        host_name = socket.gethostname() 
-        host_ip = socket.gethostbyname(host_name) 
-        print("Hostname :  ",host_name) 
-        print("IP : ",host_ip) 
-        return host_ip
-    except: 
-        print("Error: unable to get Hostname and IP") 
-        sys.exit(1)
+def getIP(ifname):
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    return socket.inet_ntoa(fcntl.ioctl(
+        s.fileno(),
+        0x8915,  # SIOCGIFADDR
+        struct.pack('256s', ifname[:15])
+    )[20:24])
 
 def runClient():
 
@@ -64,7 +64,8 @@ def runServer():
     checkPort(listen_port)
 
     #host_name = '127.0.0.1' #localhost
-    host_name = getIP() #dyanmic IP
+    host_name = get_ip_address('eth0')  #dynamic ip get
+    print("IP :  ",host_name) 
 
     total_kb = 0
 
