@@ -10,6 +10,18 @@ def checkPort(port):
         print("Error: port number must be in the range 1024 to 65535")
         sys.exit(1)
 
+def getIP(): 
+    #get host ip
+    try: 
+        host_name = socket.gethostname() 
+        host_ip = socket.gethostbyname(host_name) 
+        print("Hostname :  ",host_name) 
+        print("IP : ",host_ip) 
+        return host_ip
+    except: 
+        print("Error: unable to get Hostname and IP") 
+        sys.exit(1)
+
 def runClient():
 
     #parse command line arguments
@@ -51,7 +63,8 @@ def runServer():
     listen_port = int(sys.argv[2])
     checkPort(listen_port)
 
-    host_name = '127.0.0.1' #localhost
+    #host_name = '127.0.0.1' #localhost
+    host_name = getIP() #dyanmic IP
 
     total_kb = 0
 
