@@ -1,0 +1,13 @@
+If we want h1 to communicate with h4, we see that it would have to follow a path that includes
+L1, L2, and L3. From this we can estimate that both the latency and throughput of the path between
+h1 and h4 would be at least the summation of the latencies and throughputs of these individual paths.
+
+L1 latency avg = 81.958ms
+L2 latency avg = 21.755ms
+L3 latency avg = 61.848ms
+h1 to h4 estimated avg latency = 165.561ms
+
+L1 server recv rate/client send rate = 20.264 Mbps / 23.854 Mbps
+L2 server recv rate/client send rate = 36.717 Mbps / 41.336 Mbps
+L3 server recv rate/client send rate = 30.78 Mbps / 34.04 Mbps
+h1 to h4 estimate avg server recv rate/client send rate = 87.761 Mbps / 99.12 Mbps
