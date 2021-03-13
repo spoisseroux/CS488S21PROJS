@@ -1,6 +1,6 @@
 "Node: h2"@mininet-vm
 root@mininet-vm:/home/CS488S21PROJS/project1/src# python3 Iperfer.py -s 1025
-received=67455 KB rate=-20.264 Mbps
+received=67455 KB rate=20.264 Mbps
 
 "Node: h7"@mininet-vm
 root@mininet-vm:/home/CS488S21PROJS/project1/src# python3 Iperfer.py 10.0.0.2 1025 20
