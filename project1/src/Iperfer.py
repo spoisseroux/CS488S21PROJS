@@ -58,7 +58,7 @@ def runServer():
     #start server
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     s.bind((host_name, listen_port))
-    s.listen()
+    s.listen(5) #was giving problem with no param for listen
     conn, addr = s.accept()
     with conn:
         start_time = time.time()
