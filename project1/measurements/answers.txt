@@ -52,6 +52,38 @@ sent=56360 KB rate=22.544 Mbps
 Here too, we see a decrease in throughput rate when running simultaneous on the same paths when compared to runnning
 alone (like from Q2).
 
+For three pairs:
+h1 -> h8 latency:
+--- 10.0.0.8 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19068ms
+rtt min/avg/max/mdev = 165.158/174.388/209.095/10.987 ms
+
+h1 -> h8 throughput:
+received=19169 KB rate=-4.725 Mbps
+sent=18390 KB rate=7.356 Mbps
+
+h7 -> h9 latency:
+--- 10.0.0.9 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19164ms
+rtt min/avg/max/mdev = 165.592/175.094/210.274/10.223 ms
+
+h7 -> h9 throughput:
+received=9286 KB rate=-2.439 Mbps
+sent=8963 KB rate=3.585 Mbps
+
+h10 -> h4 latency:
+--- 10.0.0.4 ping statistics ---
+20 packets transmitted, 20 received, 0% packet loss, time 19065ms
+rtt min/avg/max/mdev = 166.051/177.200/197.173/11.007 ms
+
+h10 -> h4 throughput:
+received=14774 KB rate=-3.789 Mbps
+sent=14217 KB rate=5.687 Mbps
+
+As seen through the results of the latency and trhoughput tests for three pairs, it is apparent that
+the latency did increase (albeit slightly), and the rate at which data was sent and received while the
+hosts communicate simultaneously is significantly lower than the tests run on two pairs. This supports our 
+initial prediction.
 
 Q4.
 
@@ -68,9 +100,4 @@ Looking at the previous test's rtt and throughput when h1-h4 was ran non-simulta
 the latency is a bit higher, and the throughput in a bit lower. Though, the difference is not as drastic
 compared to when h1-h4 is ran simultaneously as h10-h8, because h5-h6 is only running on one same L path
 as h1-h4, where as h10-h8 in running on 3 similar L paths as h1-h4.
-
-
-
-
-
 
