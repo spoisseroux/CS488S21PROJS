@@ -2,27 +2,36 @@
 
 #!/usr/bin/env python
 
+#TODO print "file received,exiting" to command line
+#USE PORT 7000 to test
+
 from socket import *
-import sys
+import sys, os
 import select
 
-host="0.0.0.0"
-port = 9999
-s = socket(AF_INET,SOCK_DGRAM)
-s.bind((host,port))
+def main():
 
-addr = (host,port)
-buf=1024
+    host = '127.0.0.1'
+    port = int(sys.argv[1])
+    s = socket(AF_INET,SOCK_DGRAM)
+    s.bind((host,port))
 
-f = open("received.txt",'wb')
+    addr = (host,port)
+    buf=1024
 
-data,addr = s.recvfrom(buf)
-try:
-    while(data):
-        f.write(data)
-        s.settimeout(2)
-        data,addr = s.recvfrom(buf)
-except timeout:
-    f.close()
-    s.close()
-    print("File Downloaded")
+    #f = open("RECEIVED_FILE.txt",'wb')
+
+    data,addr = s.recvfrom(buf)
+    print("echo Received file, exiting.")
+
+    try:
+        while(data):
+            #f.write(data)
+            print(data.decode('utf-8'), end="")
+            s.settimeout(2)
+            data,addr = s.recvfrom(buf)
+    except timeout:
+        #f.close()
+        s.close()
+
+main()
