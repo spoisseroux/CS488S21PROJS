@@ -22,7 +22,6 @@ def main():
     #f = open("RECEIVED_FILE.txt",'wb')
 
     data,addr = s.recvfrom(buf)
-    print("echo Received file, exiting.")
 
     try:
         while(data):
