@@ -23,7 +23,7 @@ def main():
 
     try:
         while(data):
-            sys.stdout.write(data.decode("utf-8").strip())
+            sys.stdout.write(data.decode("utf-8"))
             s.settimeout(2)
             data,addr = s.recvfrom(buf)
     except timeout:

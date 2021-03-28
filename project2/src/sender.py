@@ -16,7 +16,7 @@ def main():
     addr = (host,port)
     total_kb = 0
 
-    data = sys.stdin.read(buf).strip().encode() #file from cat command line and encode to byte obj
+    data = sys.stdin.read(buf).encode() #file from cat command line and encode to byte obj
 
     #start timer
     start_time = time.time()
@@ -24,7 +24,7 @@ def main():
     while (data):
         if(s.sendto(data,addr)):
             #print("sending ...")
-            data = sys.stdin.read(buf).strip().encode()
+            data = sys.stdin.read(buf).encode()
             total_kb += 1024
 
     #end timer
