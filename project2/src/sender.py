@@ -16,7 +16,7 @@ def main():
     addr = (host,port)
     total_kb = 0
 
-    f=open("a.txt","rb")
+    f=open("HUGE_FILE.txt","rb") #hardcoded file name
     data = f.read(buf)
 
     #start timer
@@ -24,7 +24,7 @@ def main():
 
     while (data):
         if(s.sendto(data,addr)):
-            print("sending ...")
+            #print("sending ...")
             data = f.read(buf)
             total_kb += 1024
 
