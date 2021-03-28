@@ -11,7 +11,7 @@ import select
 
 def main():
 
-    host = '127.0.0.1'
+    host = '127.0.0.1' #hardcoded localhost
     port = int(sys.argv[1])
     s = socket(AF_INET,SOCK_DGRAM)
     s.bind((host,port))
@@ -19,18 +19,15 @@ def main():
     addr = (host,port)
     buf=1024
 
-    #f = open("RECEIVED_FILE.txt",'wb')
-
     data,addr = s.recvfrom(buf)
 
     try:
         while(data):
-            #f.write(data)
-            print(data.decode('utf-8'), end="")
+            sys.stdout.write(data.decode("utf-8"))
             s.settimeout(2)
             data,addr = s.recvfrom(buf)
     except timeout:
-        #f.close()
-        s.close()
+        sys.stdout.close()
+        #sys.__stdout__.write("File received, exiting")
 
 main()

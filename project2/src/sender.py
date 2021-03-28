@@ -16,8 +16,7 @@ def main():
     addr = (host,port)
     total_kb = 0
 
-    f=open("HUGE_FILE.txt","rb") #hardcoded file name
-    data = f.read(buf)
+    data = sys.stdin.read(buf).encode() #file from cat command line and encode to byte obj
 
     #start timer
     start_time = time.time()
@@ -25,7 +24,7 @@ def main():
     while (data):
         if(s.sendto(data,addr)):
             #print("sending ...")
-            data = f.read(buf)
+            data = sys.stdin.read(buf).encode()
             total_kb += 1024
 
     #end timer
@@ -33,7 +32,7 @@ def main():
     elapsed_time = end_time - start_time
 
     s.close()
-    f.close()
+    sys.stdin.close()
 
     #statistics
     kbRate = (total_kb / 125) / elapsed_time
