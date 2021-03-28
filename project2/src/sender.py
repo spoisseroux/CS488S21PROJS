@@ -35,8 +35,10 @@ def main():
     sys.stdin.close()
 
     #statistics
+    if (elapsed_time == 0):
+        elapsed_time = 0.001
     kbRate = (total_kb / 125) / elapsed_time
-    kbRate = float("%0.3f" % (kbRate))
+    kbRate = float("%0.2f" % (kbRate))
     elapsed_time = float("%0.3f" % (elapsed_time))
     print("Sent " + str(total_kb) + " bytes in " + str(elapsed_time) + " seconds: " + str(kbRate) + " kB/s")
 

@@ -23,11 +23,10 @@ def main():
 
     try:
         while(data):
-            sys.stdout.write(data.decode("utf-8"))
+            sys.stdout.write(data.decode("utf-8").strip())
             s.settimeout(2)
             data,addr = s.recvfrom(buf)
     except timeout:
         sys.stdout.close()
-        #sys.__stdout__.write("File received, exiting")
 
 main()
