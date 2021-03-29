@@ -7,6 +7,15 @@ from socket import *
 import sys, os
 import select
 
+class RUDP():
+    seqNum = 0
+    data = bytearray(buf)
+
+    def make(self, data):
+        self.data = data
+        self.seqNum = seqLast
+        seqLast+=1
+
 host = "127.0.0.1" #hardcoded localhost
 port = int(sys.argv[1])
 s = socket(AF_INET,SOCK_DGRAM)

@@ -8,21 +8,35 @@ from socket import *
 import sys
 import time
 
+buf = 1024
+seqLast = 0
+
+class RUDP():
+    seqNum = 0
+    data = bytearray(buf)
+
+    def make(self, data):
+        self.data = data
+        self.seqNum = seqLast
+        seqLast+=1
+
 s = socket(AF_INET,SOCK_DGRAM)
 host = sys.argv[1]
 port = int(sys.argv[2])
-buf = 1024
 addr = (host,port)
-total_kb = 0 #keep track for stats
+total_kb = 0 #needs dynamic size looki[]
 
-data = sys.stdin.read(buf).encode() #file from cat command line and encode to byte obj
+pkt = RUDP() #init pkt
+pkt.make(sys.stdin.read(buf).encode())
+#data = sys.stdin.read(buf).encode() #read in buf
 
 #start timer
 start_time = time.time()
 
-while (data):
-    if(s.sendto(data,addr)):
-        data = sys.stdin.read(buf).encode()
+while (pkt.data):
+    if(s.sendto(bytes(pkt),addr)):
+        pkt.make(sys.stdin.read(buf).encode())
+        #data = sys.stdin.read(buf).encode()
         total_kb += buf #track size
 
 s.close()
