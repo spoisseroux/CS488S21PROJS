@@ -26,4 +26,4 @@ try:
 except timeout:
     #sys.stdout.close()
     s.close()
-    sys.stderr.write("File received, exiting.")
+    sys.stderr.write("File received, exiting.\n")
