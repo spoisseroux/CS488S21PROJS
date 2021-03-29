@@ -15,25 +15,21 @@ buf = 1024
 addr = (host,port)
 total_kb = 0
 
-data = sys.stdin.read(buf) #file from cat command line and encode to byte obj
-data = data.encode()
+data = sys.stdin.read(buf).encode() #file from cat command line and encode to byte obj
 
 #start timer
 start_time = time.time()
 
 while (data):
     if(s.sendto(data,addr)):
-        #print("sending ...")
-        data = sys.stdin.read(buf)
-        data = data.encode()
-        total_kb += buf
+        data = sys.stdin.read(buf).encode()
+        total_kb += buf #track size
+
+s.close()
 
 #end timer
 end_time = time.time()
 elapsed_time = end_time - start_time
-
-s.close()
-#sys.stdin.close()
 
 #statistics
 if (elapsed_time == 0):
