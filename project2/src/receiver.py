@@ -7,7 +7,7 @@ from socket import *
 import sys, os
 import select
 
-host = '0.0.0.0' #hardcoded localhost
+host = "0.0.0.0" #hardcoded localhost
 port = int(sys.argv[1])
 s = socket(AF_INET,SOCK_DGRAM)
 s.bind((host,port))
