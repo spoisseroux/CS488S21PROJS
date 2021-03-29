@@ -8,38 +8,35 @@ from socket import *
 import sys
 import time
 
-def main():
-    s = socket(AF_INET,SOCK_DGRAM)
-    host = sys.argv[1]
-    port = int(sys.argv[2])
-    buf = 1024
-    addr = (host,port)
-    total_kb = 0
+s = socket(AF_INET,SOCK_DGRAM)
+host = sys.argv[1]
+port = int(sys.argv[2])
+buf = 1024
+addr = (host,port)
+total_kb = 0
 
-    data = sys.stdin.read(buf).encode() #file from cat command line and encode to byte obj
+data = sys.stdin.read(buf).encode() #file from cat command line and encode to byte obj
 
-    #start timer
-    start_time = time.time()
+#start timer
+start_time = time.time()
 
-    while (data):
-        if(s.sendto(data,addr)):
-            #print("sending ...")
-            data = sys.stdin.read(buf).encode()
-            total_kb += 1024
+while (data):
+    if(s.sendto(data,addr)):
+        #print("sending ...")
+        data = sys.stdin.read(buf).encode()
+        total_kb += 1024
 
-    #end timer
-    end_time = time.time()
-    elapsed_time = end_time - start_time
+#end timer
+end_time = time.time()
+elapsed_time = end_time - start_time
 
-    s.close()
-    sys.stdin.close()
+s.close()
+#sys.stdin.close()
 
-    #statistics
-    if (elapsed_time == 0):
-        elapsed_time = 0.001
-    kbRate = (total_kb / 125) / elapsed_time
-    kbRate = float("%0.2f" % (kbRate))
-    elapsed_time = float("%0.3f" % (elapsed_time))
-    print("Sent " + str(total_kb) + " bytes in " + str(elapsed_time) + " seconds: " + str(kbRate) + " kB/s")
-
-main()
+#statistics
+if (elapsed_time == 0):
+    elapsed_time = 0.001
+kbRate = (total_kb / 125) / elapsed_time
+kbRate = float("%0.2f" % (kbRate))
+elapsed_time = float("%0.3f" % (elapsed_time))
+print("Sent " + str(total_kb) + " bytes in " + str(elapsed_time) + " seconds: " + str(kbRate) + " kB/s")
