@@ -24,7 +24,7 @@ while (data):
     if(s.sendto(data,addr)):
         #print("sending ...")
         data = sys.stdin.read(buf).encode()
-        total_kb += 1024
+        total_kb += buf
 
 #end timer
 end_time = time.time()
