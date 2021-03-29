@@ -6,6 +6,7 @@
 #!/usr/bin/env python
 from socket import *
 import sys
+from sys import getsizeof
 import time
 
 s = socket(AF_INET,SOCK_DGRAM)
@@ -14,15 +15,22 @@ port = int(sys.argv[2])
 buf = 1024
 addr = (host,port)
 total_kb = 0 #keep track for stats
+seqNum = 0
 
-data = sys.stdin.read(buf).encode() #file from cat command line and encode to byte obj
+#prepend int to read
+data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
+packet = str(seqNum).encode() + data
+seqNum += 1
 
 #start timer
 start_time = time.time()
 
 while (data):
-    if(s.sendto(data,addr)):
-        data = sys.stdin.read(buf).encode()
+    if(s.sendto(packet,addr)):
+        data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
+        packet = str(seqNum).encode() + data
+        seqNum += 1
+        if seqNum == 10: seqNum = 0
         total_kb += buf #track size
 
 s.close()
