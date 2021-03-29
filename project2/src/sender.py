@@ -30,7 +30,7 @@ while (data):
         data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
         packet = str(seqNum).encode() + data
         seqNum += 1
-        if seqNum == 10: seqNum = 0
+        if seqNum == 10: seqNum = 0 #never go beyond 9 for seqnum
         total_kb += buf #track size
 
 s.close()
