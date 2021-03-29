@@ -24,6 +24,8 @@ try:
         sys.stdout.write(data.decode("utf-8"))
         s.settimeout(2)
         data,addr = s.recvfrom(buf)
+
 except timeout:
     #sys.stdout.close()
     s.close()
+    sys.stderr.write("File received, exiting.")
