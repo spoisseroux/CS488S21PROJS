@@ -13,7 +13,7 @@ host = sys.argv[1]
 port = int(sys.argv[2])
 buf = 1024
 addr = (host,port)
-total_kb = 0
+total_kb = 0 #keep track for stats
 
 data = sys.stdin.read(buf).encode() #file from cat command line and encode to byte obj
 
