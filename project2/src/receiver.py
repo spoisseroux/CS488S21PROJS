@@ -1,8 +1,6 @@
 # ----- receiver.py -----
 
 #!/usr/bin/env python
-
-#TODO print "file received,exiting" to command line
 #USE PORT 7000 to test
 
 from socket import *
