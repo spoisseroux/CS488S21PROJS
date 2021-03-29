@@ -9,6 +9,7 @@ from socket import *
 import sys, os
 import select
 
+
 def main():
 
     host = '127.0.0.1' #hardcoded localhost
@@ -23,6 +24,8 @@ def main():
 
     try:
         while(data):
+            #gen seq number
+            #put into circular queue
             sys.stdout.write(data.decode("utf-8"))
             s.settimeout(2)
             data,addr = s.recvfrom(buf)
