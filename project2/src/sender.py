@@ -9,16 +9,12 @@ import sys
 import time
 
 buf = 1024
-seqLast = 0
+seqNum = 0
 
 class RUDP():
-    seqNum = 0
-    data = bytearray(buf)
-
-    def make(self, data):
+    def __init__(self, seqNum, data):
+        self.seqNum = seqNum
         self.data = data
-        self.seqNum = seqLast
-        seqLast+=1
 
 s = socket(AF_INET,SOCK_DGRAM)
 host = sys.argv[1]
@@ -26,16 +22,17 @@ port = int(sys.argv[2])
 addr = (host,port)
 total_kb = 0 #needs dynamic size looki[]
 
-pkt = RUDP() #init pkt
-pkt.make(sys.stdin.read(buf).encode())
+pkt = RUDP(seqNum, sys.stdin.read(buf).encode()) #init pkt
+seqNum += 1
 #data = sys.stdin.read(buf).encode() #read in buf
 
 #start timer
 start_time = time.time()
 
 while (pkt.data):
-    if(s.sendto(bytes(pkt),addr)):
-        pkt.make(sys.stdin.read(buf).encode())
+    if(s.sendto(pkt,addr)):
+        pkt = RUDP(seqNum, sys.stdin.read(buf).encode())
+        seqNum += 1
         #data = sys.stdin.read(buf).encode()
         total_kb += buf #track size
 

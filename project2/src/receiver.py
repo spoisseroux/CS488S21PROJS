@@ -7,14 +7,12 @@ from socket import *
 import sys, os
 import select
 
-class RUDP():
-    seqNum = 0
-    data = bytearray(buf)
+buf = 1024
 
-    def make(self, data):
+class RUDP():
+    def __init__(self, seqNum, data):
+        self.seqNum = seqNum
         self.data = data
-        self.seqNum = seqLast
-        seqLast+=1
 
 host = "127.0.0.1" #hardcoded localhost
 port = int(sys.argv[1])
@@ -22,15 +20,16 @@ s = socket(AF_INET,SOCK_DGRAM)
 s.bind((host,port))
 
 addr = (host,port)
-buf=1024
 
 data,addr = s.recvfrom(buf)
+pkt = data.decode()
 
 try:
     while(data):
-        sys.stdout.write(data.decode())
+        sys.stdout.write(pkt.data)
         s.settimeout(2)
         data,addr = s.recvfrom(buf)
+        pkt = data.decode()
 
 except timeout:
     #sys.stdout.close()
