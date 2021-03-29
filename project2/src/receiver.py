@@ -17,15 +17,16 @@ def main():
     s.bind((host,port))
 
     addr = (host,port)
-    buf=1024
+    buf=1400
 
     data,addr = s.recvfrom(buf)
 
     try:
-        while(data):
-            sys.stdout.write(data.decode("utf-8"))
+        while(1):
+            sys.stdout.write(data.decode(encoding='UTF-8'))
             s.settimeout(2)
             data,addr = s.recvfrom(buf)
+
     except timeout:
         sys.stdout.close()
 

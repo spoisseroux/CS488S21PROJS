@@ -12,20 +12,23 @@ def main():
     s = socket(AF_INET,SOCK_DGRAM)
     host = sys.argv[1]
     port = int(sys.argv[2])
-    buf = 1024
+    buf = 1400
     addr = (host,port)
     total_kb = 0
 
-    data = sys.stdin.read(buf).encode() #file from cat command line and encode to byte obj
+    data = sys.stdin.read(buf) #file from cat command line and encode to byte obj
+    data = data.encode(encoding='UTF-8')
 
     #start timer
     start_time = time.time()
 
+
     while (data):
         if(s.sendto(data,addr)):
             #print("sending ...")
-            data = sys.stdin.read(buf).encode()
-            total_kb += 1024
+            data = sys.stdin.read(buf)
+            data = data.encode(encoding='UTF-8')
+            total_kb += 1400
 
     #end timer
     end_time = time.time()
