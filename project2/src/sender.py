@@ -28,6 +28,14 @@ s = socket(AF_INET,SOCK_DGRAM)
 global start_time
 start_time = time.time()
 
+def resend(packet):
+    #resend lost packet
+    global s
+    global addr
+
+    s.sendto(packet,addr)
+    receive(packet) #go to receive lost packet
+
 def receive(packet):
     global s
     global buf
@@ -38,15 +46,18 @@ def receive(packet):
 
     data,addr = s.recvfrom(buf)
     data = data.decode()
-    receivedSeqNum = data[:1] #received seqNUM Ack
-
+    receivedSeqNum = int(data[:1]) #received seqNUM Ack
+    expectedSeqNum = int(packet.decode()[:1]) + 1
+    if (expectedSeqNum == 10): #after 9 is zero
+        expectedSeqNum = 0
     #check if received data (ACK)
-    if (int(receivedSeqNum) == int(packet.decode()[:1]) + 1): #Check for cumulative ack (incresed by 1)
+    #print(receivedSeqNum) #TODO: remove debug
+    #print(expectedSeqNum) #TODO: remove debug
+    if (receivedSeqNum == expectedSeqNum): #Check for cumulative ack (incresed by 1)
         #continue (break?)
         pass
     else:
-        #resend packet
-        pass
+        resend(packet)
 
 
 def send(packet):
@@ -75,7 +86,7 @@ def getData():
         send(packet) #send data
         receive(packet) #receive ack for sent data
         seqNum = seqNum + 1
-        if (seqNum >= 10): #make sure seqnum never goes above 9
+        if (seqNum == 10): #make sure seqnum never goes above 9
             seqNum = 0
         data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
         packet = str(seqNum).encode() + data #prepend seq num to data

@@ -35,6 +35,7 @@ def recieve(seqNum):
 
 
 def send(ackNum):
+    global s
     global total_kb
     global host
     global port
@@ -46,10 +47,10 @@ def send(ackNum):
 
 
 def main():
+    seqNum = 0 #init seqnum
     try:
         while(True):
             s.settimeout(2)
-            seqNum = 0
             recieve(seqNum)
             ackNum = seqNum + 1 #Num to send as cumulative ack
             if (ackNum == 10): ackNum = 0 #after 9 comes zero
