@@ -1,11 +1,5 @@
+#Spencer Poisseroux
 # ----- receiver.py -----
-
-#!/usr/bin/env python
-#USE PORT 7000 to test
-
-#1 fill queue with expected numbers
-#2 receive packets from sender
-#3
 
 from socket import *
 import sys, os
@@ -61,6 +55,7 @@ def main():
     except timeout:
         #end
         s.close()
+        sys.stderr.write("File received, exiting.\n")
         pass
 
 main()

@@ -1,14 +1,5 @@
+#Spencer Poisseroux
 # ----- sender.py ------
-
-#For milestone one, we want sender to divide data from a file into
-#multiple packets and transmit to receiver by UDP
-
-#1 put ten packets in QUEUE
-#2 send packets from queue
-#3 wait to recv acks, resend if necessary
-#4 repeat?
-
-#TODO:implement timers for timeout in queue
 
 #!/usr/bin/env python
 from socket import *
