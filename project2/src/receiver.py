@@ -34,14 +34,14 @@ def recieve(seqNum):
         pass
 
 
-def sendQueue(ackNum):
+def send(ackNum):
     global total_kb
     global host
     global port
     global buf
     global addr
 
-    packet = ackNum.encode() #sending ack to sender
+    packet = str(ackNum).encode() #sending ack to sender
     s.sendto(packet,addr)
 
 

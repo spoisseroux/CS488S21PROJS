@@ -22,7 +22,7 @@ total_kb = 0 #keep track for stats
 buf = 1024
 addr = (host,port)
 s = socket(AF_INET,SOCK_DGRAM)
-s.bind((host,port))
+#s.bind((host,port))
 
 #start timer
 global start_time
