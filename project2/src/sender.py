@@ -80,11 +80,11 @@ def getData():
         data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
         packet = str(seqNum).encode() + data #prepend seq num to data
 
+    s.close()
     printStats() #print stats when no more data, end
 
 
 def printStats():
-    s.close()
     #end timer
     end_time = time.time()
     elapsed_time = end_time - start_time

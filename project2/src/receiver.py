@@ -26,8 +26,9 @@ def recieve(seqNum):
     data,addr = s.recvfrom(buf)
     data = data.decode()
     receivedSeqNum = data[:1] #received sequence ADD TO CIRCULAR QUEUE
+    writeData = data[1:]
     if (int(receivedSeqNum) == seqNum):
-        pass
+        sys.stdout.write(writeData)
     else:
         #resend packet here?
         pass
@@ -58,6 +59,7 @@ def main():
 
     except timeout:
         #end
+        s.close()
         pass
 
 main()
