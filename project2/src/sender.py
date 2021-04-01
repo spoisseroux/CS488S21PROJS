@@ -18,9 +18,9 @@ import time
 
 host = sys.argv[1]
 port = int(sys.argv[2])
-port = 5008 #TODO:hardcoded port
 total_kb = 0 #keep track for stats
 buf = 1024
+addr = (host,port)
 s = socket(AF_INET,SOCK_DGRAM)
 s.bind((host,port))
 
@@ -28,206 +28,62 @@ s.bind((host,port))
 global start_time
 start_time = time.time()
 
-class CircularQueue():
-
-    # constructor
-    def __init__(self, size): # initializing the class
-        self.size = size
-
-        # initializing queue with none
-        self.queue = [None for i in range(size)]
-        self.front = self.rear = -1
-
-    def isFull(self):
-        # condition if queue is full
-        if ((self.rear + 1) % self.size == self.front):
-            return True
-        else:
-            return False
-
-    def enqueue(self, data):
-
-        # condition if queue is full
-        if ((self.rear + 1) % self.size == self.front):
-            print(" Queue is Full\n")
-            #Full
-
-
-        # condition for empty queue
-        elif (self.front == -1):
-            self.front = 0
-            self.rear = 0
-            self.queue[self.rear] = data
-        else:
-
-            # next position of rear
-            self.rear = (self.rear + 1) % self.size
-            self.queue[self.rear] = data
-
-    def dequeue(self):
-        if (self.front == -1): # codition for empty queue
-            print ("Queue is Empty\n")
-
-        # condition for only one element
-        elif (self.front == self.rear):
-            temp=self.queue[self.front]
-            self.front = -1
-            self.rear = -1
-            return temp
-        else:
-            temp = self.queue[self.front]
-            self.front = (self.front + 1) % self.size
-            return temp
-
-    def display(self):
-
-        # condition for empty queue
-        if(self.front == -1):
-            print ("Queue is Empty")
-
-        elif (self.rear >= self.front):
-            print("Elements in the circular queue are:",
-                                              end = " ")
-            for i in range(self.front, self.rear + 1):
-                print(self.queue[i], end = " ")
-            print ()
-
-        else:
-            print ("Elements in Circular Queue are:",
-                                           end = " ")
-            for i in range(self.front, self.size):
-                print(self.queue[i], end = " ")
-            for i in range(0, self.rear + 1):
-                print(self.queue[i], end = " ")
-            print ()
-
-        if ((self.rear + 1) % self.size == self.front):
-            print("Queue is Full")#if full go to waitToRecv
-
-    def getHead(self): #GET HEAD TO COMPARE
-        if(self.front == -1):
-            print ("Queue is Empty")
-        else:
-            for i in range(self.front, self.size):
-                return (self.queue[0])
-
-    def ack(self, num):
-        if (self.rear >= self.front):
-            for i in range(self.front, self.rear + 1):
-                str = self.queue[i]
-                if (num == str[:1]):
-                    self.queue[i] = str[:1] + "ack" #get rid of rest of data on ack
-
-        else:
-            print("something went wrong with ack")
-
-    def get(self, num):
-        if (self.rear >= self.front):
-            for i in range(self.front, self.rear + 1):
-                str = self.queue[i]
-                if (num == str[:1]):
-                    return str #get data
-
-        else:
-            print("something went wrong with get")
-
-    def isEmpty(self):
-        if (self.front == -1): # codition for empty queue
-            return True
-        else:
-            return False
-
-q = CircularQueue(10)
-
-def resendPacket():
-    ## TODO: resend timeout packet
-    #resend q.getHead()
-    #after send start listening
-    #finish and start fillQueue() again
-    print("PACKET LOST \n")
-    sys.exit(1)
-    pass
-
-def recvQueue():
-    global q
+def receive(packet):
     global s
     global buf
+    global host
+    global port
+    global addr
     #s = socket(AF_INET,SOCK_DGRAM)
 
-    addr = (host,port)
     data,addr = s.recvfrom(buf)
     data = data.decode()
-    receivedSeqNum = data[:1] #received seqNUM Ack in CIRCULAR QUEUE
-    q.ack(receivedSeqNum)
+    receivedSeqNum = data[:1] #received seqNUM Ack
 
-    try:
-        while(data):
-            #TRY TO RECEIVE AND ACK ALL DATA
-            #append 'ack' if ackd
-            #check if data is head in queue
-            s.settimeout(2)
-            data,addr = s.recvfrom(buf)
-            data = dataRecv.decode()
-            receivedSeqNum = data[:1] #received sequence ADD TO CIRCULAR QUEUE
-            q.ack(receivedSeqNum) #ACK RECEIVED PACKET
-            #SEND BACK PACKET IF IT MATCHES PACKET IN QUEUE OF SENDER IT CAN THEN SLIDE THE WINDOW
+    #check if received data (ACK)
+    if (int(receivedSeqNum) == int(packet.decode()[:1]) + 1): #Check for cumulative ack (incresed by 1)
+        #continue (break?)
+        pass
+    else:
+        #resend packet
+        pass
 
-    except timeout:
 
-        print("IS IT ALL ACKED?\n")
-        q.display()
-        print()
-
-        #this should empty whole queue if it is all acked
-        for i in range(10):
-            #check if head is acked, if so dequeue()
-            head = str(q.getHead())
-            if (head[1:4] == "ack"): #check if already acked
-                q.dequeue()
-
-        print("IS IT NOW EMPTY?\n")
-        q.display()
-        print()
-
-        if (q.isEmpty):
-            fillQueue():
-        else:
-            resendPacket():
-
-def sendQueue():
+def send(packet):
+    global s
     global total_kb
     global host
     global port
-    global q
     global buf
-    addr = (host,port)
+    global addr
 
-    #send all packets from queue
-    while (q.getHead() != None):
-        for i in range(10):
-            seqNum = str(i)
-            packet = q.get(seqNum).encode()
-            s.sendto(packet,addr)
-            total_kb += buf
+    s.sendto(packet,addr)
+    total_kb += buf #track kb sent
 
-def fillQueue():
+
+def getData():
+    #get data, call send, recv after getting data in loop
+    global buf
+
+    #init data
     seqNum = 0
+    data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
+    packet = str(seqNum).encode() + data
+    seqNum = seqNum + 1
 
-    #populate queue 0-9
-    for i in range(10):
-        data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
-        packet = str(seqNum).encode() + data
-        q.enqueue(packet.decode())
+    while (data):
+        send(packet) #send data
+        receive(packet) #receive ack for sent data
         seqNum = seqNum + 1
+        if (seqNum >= 10): #make sure seqnum never goes above 9
+            seqNum = 0
+        data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
+        packet = str(seqNum).encode() + data #prepend seq num to data
 
-    sendQueue()
+    printStats() #print stats when no more data, end
 
 
-
-
-
-
-def showStats():
+def printStats():
     s.close()
     #end timer
     end_time = time.time()
@@ -241,4 +97,4 @@ def showStats():
     elapsed_time = float("%0.3f" % (elapsed_time))
     print("Sent " + str(total_kb) + " bytes in " + str(elapsed_time) + " seconds: " + str(kbRate) + " kB/s")
 
-fillQueue()
+getData()
