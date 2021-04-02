@@ -39,7 +39,7 @@ def receive(packet):
 
     print("in receive()")
     try:
-        s.settimeout(1)
+        s.settimeout(0.1)
         data,addr = s.recvfrom(buf)
         data = data.decode()
         receivedSeqNum = int(data[:1]) #received seqNUM Ack
