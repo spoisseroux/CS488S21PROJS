@@ -72,16 +72,21 @@ def getData():
     data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
     packet = str(seqNum).encode() + data
     seqNum = seqNum + 1
-
-    while (data):
-        send(packet) #send data
-        receive(packet) #receive ack for sent data
-        seqNum = seqNum + 1
-        if (seqNum == 10): #make sure seqnum never goes above 9
-            seqNum = 0
-        data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
-        packet = str(seqNum).encode() + data #prepend seq num to data
-
+    
+    try:
+        while (data):
+            s.settimeout(2)
+            send(packet) #send data
+            receive(packet) #receive ack for sent data
+            seqNum = seqNum + 1
+            if (seqNum == 10): #make sure seqnum never goes above 9
+                seqNum = 0
+            data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
+            packet = str(seqNum).encode() + data #prepend seq num to data
+            
+    except timeout:
+        pass
+        
     s.close()
     printStats() #print stats when no more data, end
 
