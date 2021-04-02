@@ -35,20 +35,25 @@ def receive(packet):
     global port
     global addr
     #s = socket(AF_INET,SOCK_DGRAM)
+    try:
+        s.settimeout(1)
+        data,addr = s.recvfrom(buf)
+        data = data.decode()
+        receivedSeqNum = int(data[:1]) #received seqNUM Ack
+        print("Received ack: " + str(receivedSeqNum))
+        expectedSeqNum = int(packet.decode()[:1]) + 1
+        if (expectedSeqNum == 10): #after 9 is zero
+            expectedSeqNum = 0
+        #check if received data (ACK)
+        if (receivedSeqNum == expectedSeqNum): #Check for cumulative ack (incresed by 1)
+            #continue (break?)
+            pass
+        else:
+            resend(packet)
 
-    data,addr = s.recvfrom(buf)
-    data = data.decode()
-    receivedSeqNum = int(data[:1]) #received seqNUM Ack
-    print("Received ack: " + str(receivedSeqNum) + "\n")
-    expectedSeqNum = int(packet.decode()[:1]) + 1
-    if (expectedSeqNum == 10): #after 9 is zero
-        expectedSeqNum = 0
-    #check if received data (ACK)
-    if (receivedSeqNum == expectedSeqNum): #Check for cumulative ack (incresed by 1)
-        #continue (break?)
-        pass
-    else:
+    except timeout: #ACK got lost
         resend(packet)
+
 
 
 def send(packet):
