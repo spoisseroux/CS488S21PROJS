@@ -24,8 +24,14 @@ def recieve(seqNum):
     writeData = data[1:]
     if (int(receivedSeqNum) == seqNum):
         sys.stdout.write(writeData)
-    else:
+    else if (int(receivedSeqNum) == (seqNum - 1):
+        sys.stderr.write("in elif\n")
+        #what if sender doesnt receive ack, itll send another
+        #and seq num will increase?
         #resend packet here?
+        pass
+    else:
+        sys.stderr.write("in else\n")
         pass
 
 
