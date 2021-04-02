@@ -29,8 +29,8 @@ def recieve():
     elif (int(receivedSeqNum) == (seqNum - 1)):
         sys.stderr.write("in elif\n")
         sys.stderr.write("expected " + str(seqNum)+ ": got "+str(receivedSeqNum)+"\n")
-        seqNum = seqNum + 1
-        if (seqNum == 10): seqNum = 0 #after 9 comes zero
+        seqNum = seqNum - 1
+        if (seqNum < 0): seqNum = 9 #before 0 comes 9
         #what if sender doesnt receive ack, itll send another
         #and seq num will increase?
         #resend packet here?
