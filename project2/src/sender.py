@@ -41,8 +41,8 @@ def receive(packet):
     try:
         s.settimeout(1)
         data,addr = s.recvfrom(buf)
-        if (data): #check if data recvd
-            data = data.decode()
+        data = data.decode()
+        if (data[1:] is not None): #check if data recvd
             receivedSeqNum = int(data[:1]) #received seqNUM Ack
             print("Received ack: " + str(receivedSeqNum))
             expectedSeqNum = int(packet.decode()[:1]) + 1
