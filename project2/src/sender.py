@@ -13,6 +13,7 @@ total_kb = 0 #keep track for stats
 buf = 1024
 addr = (host,port)
 s = socket(AF_INET,SOCK_DGRAM)
+end_time=0
 #s.bind((host,port))
 
 #start timer
@@ -38,12 +39,11 @@ def receive(packet):
     data,addr = s.recvfrom(buf)
     data = data.decode()
     receivedSeqNum = int(data[:1]) #received seqNUM Ack
+    print("Received ack: " + receivedSeqNum + "\n")
     expectedSeqNum = int(packet.decode()[:1]) + 1
     if (expectedSeqNum == 10): #after 9 is zero
         expectedSeqNum = 0
     #check if received data (ACK)
-    print(receivedSeqNum) #TODO: remove debug
-    print(expectedSeqNum) #TODO: remove debug
     if (receivedSeqNum == expectedSeqNum): #Check for cumulative ack (incresed by 1)
         #continue (break?)
         pass
@@ -66,6 +66,7 @@ def send(packet):
 def getData():
     #get data, call send, recv after getting data in loop
     global buf
+    global end_time
 
     #init data
     seqNum = 0
