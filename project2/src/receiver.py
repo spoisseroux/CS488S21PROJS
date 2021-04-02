@@ -48,7 +48,7 @@ def main():
             recieve(seqNum)
             ackNum = seqNum + 1 #Num to send as cumulative ack
             if (ackNum == 10): ackNum = 0 #after 9 comes zero
-            print("Sending ack: "+ ackNum + "\n") #TODO: debug
+            print("Sending ack: "+ str(ackNum) + "\n") #TODO: debug
             send(ackNum)
             seqNum = seqNum + 1 #increase next expected seqNum
             if (seqNum == 10): seqNum = 0 #after 9 comes zero

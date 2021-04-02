@@ -39,7 +39,7 @@ def receive(packet):
     data,addr = s.recvfrom(buf)
     data = data.decode()
     receivedSeqNum = int(data[:1]) #received seqNUM Ack
-    print("Received ack: " + receivedSeqNum + "\n")
+    print("Received ack: " + str(receivedSeqNum) + "\n")
     expectedSeqNum = int(packet.decode()[:1]) + 1
     if (expectedSeqNum == 10): #after 9 is zero
         expectedSeqNum = 0
