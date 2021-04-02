@@ -42,8 +42,8 @@ def receive(packet):
     if (expectedSeqNum == 10): #after 9 is zero
         expectedSeqNum = 0
     #check if received data (ACK)
-    #print(receivedSeqNum) #TODO: remove debug
-    #print(expectedSeqNum) #TODO: remove debug
+    print(receivedSeqNum) #TODO: remove debug
+    print(expectedSeqNum) #TODO: remove debug
     if (receivedSeqNum == expectedSeqNum): #Check for cumulative ack (incresed by 1)
         #continue (break?)
         pass
@@ -72,7 +72,7 @@ def getData():
     data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
     packet = str(seqNum).encode() + data
     seqNum = seqNum + 1
-    
+
     try:
         while (data):
             s.settimeout(2)
@@ -83,17 +83,20 @@ def getData():
                 seqNum = 0
             data = sys.stdin.read(buf - getsizeof(str(seqNum))).encode()
             packet = str(seqNum).encode() + data #prepend seq num to data
-            
+
     except timeout:
+        end_time = time.time()
+        end_time = end_time - 2 #adjust for timeout
         pass
-        
+
+    end_time = time.time()
     s.close()
     printStats() #print stats when no more data, end
 
 
 def printStats():
     #end timer
-    end_time = time.time()
+
     elapsed_time = end_time - start_time
 
     #statistics
