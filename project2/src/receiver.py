@@ -17,6 +17,7 @@ def recieve(seqNum):
     global buf
     global addr
 
+    sys.stderr.write("in receive()\n")
     data,addr = s.recvfrom(buf)
     data = data.decode()
     receivedSeqNum = data[:1] #received sequence ADD TO CIRCULAR QUEUE
@@ -36,6 +37,7 @@ def send(ackNum):
     global buf
     global addr
 
+    sys.stderr.write("in send()\n")
     packet = str(ackNum).encode() #sending ack to sender
     s.sendto(packet,addr)
 
