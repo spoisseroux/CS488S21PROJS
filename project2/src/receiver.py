@@ -24,7 +24,7 @@ def recieve(seqNum):
     data = data.decode()
     receivedSeqNum = data[:1] #received sequence ADD TO CIRCULAR QUEUE
     writeData = data[1:]
-    receivedNum = receivedSeqNum
+    receivedNum = int(receivedSeqNum)
     if (int(receivedSeqNum) == seqNum):
         sys.stdout.write(writeData)
     else:
