@@ -5,7 +5,7 @@ from socket import *
 import sys, os
 import select
 
-host = "127.0.0.1" #hardcoded localhost
+host = "192.168.126.128" #hardcoded mininet
 port = int(sys.argv[1])
 s = socket(AF_INET,SOCK_DGRAM)
 s.bind((host,port))
