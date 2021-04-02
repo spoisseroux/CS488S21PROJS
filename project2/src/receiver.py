@@ -19,7 +19,7 @@ def recieve():
     global addr
     global seqNum
 
-    sys.stderr.write("in receive()\n")
+    #sys.stderr.write("in receive()\n")
     data,addr = s.recvfrom(buf)
     data = data.decode()
     receivedSeqNum = data[:1] #received sequence ADD TO CIRCULAR QUEUE
@@ -27,8 +27,8 @@ def recieve():
     if (int(receivedSeqNum) == seqNum):
         sys.stdout.write(writeData)
     elif ((int(receivedSeqNum) == (seqNum - 1)) or ((int(receivedSeqNum) == 9) and (seqNum == 0))):
-        sys.stderr.write("in elif\n")
-        sys.stderr.write("expected " + str(seqNum)+ ": got "+str(receivedSeqNum)+"\n")
+        #sys.stderr.write("in elif\n")
+        #sys.stderr.write("expected " + str(seqNum)+ ": got "+str(receivedSeqNum)+"\n")
         seqNum = seqNum - 1
         if (seqNum < 0): seqNum = 9 #before 0 comes 9
         #what if sender doesnt receive ack, itll send another
@@ -36,8 +36,8 @@ def recieve():
         #resend packet here?
         pass
     else:
-        sys.stderr.write("in else\n")
-        sys.stderr.write("expected " + str(seqNum)+ ": got "+str(receivedSeqNum)+"\n")
+        #sys.stderr.write("in else\n")
+        #sys.stderr.write("expected " + str(seqNum)+ ": got "+str(receivedSeqNum)+"\n")
         pass
 
 
@@ -49,7 +49,7 @@ def send(ackNum):
     global buf
     global addr
 
-    sys.stderr.write("in send()\n")
+    #sys.stderr.write("in send()\n")
     packet = str(ackNum).encode() #sending ack to sender
     s.sendto(packet,addr)
 
@@ -62,7 +62,7 @@ def main():
             recieve()
             ackNum = seqNum + 1 #Num to send as cumulative ack
             if (ackNum == 10): ackNum = 0 #after 9 comes zero
-            sys.stderr.write("Sending ack: "+ str(ackNum) + "\n") #TODO: debug
+            #sys.stderr.write("Sending ack: "+ str(ackNum) + "\n") #TODO: debug
             send(ackNum)
             seqNum = seqNum + 1 #increase next expected seqNum
             if (seqNum == 10): seqNum = 0 #after 9 comes zero

@@ -25,7 +25,7 @@ def resend(packet):
     global s
     global addr
 
-    print("in resend()")
+    #print("in resend()")
     s.sendto(packet,addr)
     receive(packet) #go to receive lost packet
 
@@ -37,13 +37,13 @@ def receive(packet):
     global addr
     #s = socket(AF_INET,SOCK_DGRAM)
 
-    print("in receive()")
+    #print("in receive()")
     try:
         s.settimeout(0.1)
         data,addr = s.recvfrom(buf)
         data = data.decode()
         receivedSeqNum = int(data[:1]) #received seqNUM Ack
-        print("Received ack: " + str(receivedSeqNum))
+        #print("Received ack: " + str(receivedSeqNum))
         expectedSeqNum = int(packet.decode()[:1]) + 1
         if (expectedSeqNum == 10): #after 9 is zero
             expectedSeqNum = 0
@@ -64,7 +64,7 @@ def send(packet):
     global buf
     global addr
 
-    print("in send()")
+    #print("in send()")
     s.sendto(packet,addr)
     total_kb += buf #track kb sent
 
