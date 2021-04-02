@@ -26,7 +26,7 @@ def recieve():
     writeData = data[1:]
     if (int(receivedSeqNum) == seqNum):
         sys.stdout.write(writeData)
-    elif ((int(receivedSeqNum) == (seqNum - 1)) or ((int(receivedSeqNum) == 0) and (seqNum == 9))):
+    elif ((int(receivedSeqNum) == (seqNum - 1)) or ((int(receivedSeqNum) == 9) and (seqNum == 0))):
         sys.stderr.write("in elif\n")
         sys.stderr.write("expected " + str(seqNum)+ ": got "+str(receivedSeqNum)+"\n")
         seqNum = seqNum - 1
