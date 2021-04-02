@@ -11,11 +11,13 @@ s = socket(AF_INET,SOCK_DGRAM)
 s.bind((host,port))
 addr = (host,port)
 buf=1024
+seqNum = 0
 
-def recieve(seqNum):
+def recieve():
     global s
     global buf
     global addr
+    global seqNum
 
     sys.stderr.write("in receive()\n")
     data,addr = s.recvfrom(buf)
@@ -27,6 +29,7 @@ def recieve(seqNum):
     elif (int(receivedSeqNum) == (seqNum - 1)):
         sys.stderr.write("in elif\n")
         sys.stderr.write("expected " + str(seqNum)+ ": got "+str(receivedSeqNum)+"\n")
+        seqNum = seqNum + 1
         #what if sender doesnt receive ack, itll send another
         #and seq num will increase?
         #resend packet here?
@@ -51,11 +54,11 @@ def send(ackNum):
 
 
 def main():
-    seqNum = 0 #init seqnum
+    global seqNum #init seqnum
     try:
         while(True):
             s.settimeout(2)
-            recieve(seqNum)
+            recieve()
             ackNum = seqNum + 1 #Num to send as cumulative ack
             if (ackNum == 10): ackNum = 0 #after 9 comes zero
             sys.stderr.write("Sending ack: "+ str(ackNum) + "\n") #TODO: debug
