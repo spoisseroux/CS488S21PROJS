@@ -24,7 +24,7 @@ def recieve(seqNum):
     writeData = data[1:]
     if (int(receivedSeqNum) == seqNum):
         sys.stdout.write(writeData)
-    else if (int(receivedSeqNum) == (seqNum - 1):
+    elif (int(receivedSeqNum) == (seqNum - 1):
         sys.stderr.write("in elif\n")
         #what if sender doesnt receive ack, itll send another
         #and seq num will increase?
