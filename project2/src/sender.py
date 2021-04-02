@@ -42,17 +42,14 @@ def receive(packet):
         s.settimeout(1)
         data,addr = s.recvfrom(buf)
         data = data.decode()
-        if (data[1:] is not None): #check if data recvd
-            receivedSeqNum = int(data[:1]) #received seqNUM Ack
-            print("Received ack: " + str(receivedSeqNum))
-            expectedSeqNum = int(packet.decode()[:1]) + 1
-            if (expectedSeqNum == 10): #after 9 is zero
-                expectedSeqNum = 0
-                #check if received data (ACK)
-            if (receivedSeqNum != expectedSeqNum): #Check for cumulative ack (incresed by 1)
-                resend(packet)
-        else:
-            printStats() #end, no more packets?
+        receivedSeqNum = int(data[:1]) #received seqNUM Ack
+        print("Received ack: " + str(receivedSeqNum))
+        expectedSeqNum = int(packet.decode()[:1]) + 1
+        if (expectedSeqNum == 10): #after 9 is zero
+            expectedSeqNum = 0
+        #check if received data (ACK)
+        if (receivedSeqNum != expectedSeqNum): #Check for cumulative ack (incresed by 1)
+            resend(packet)
 
     except timeout: #ACK got lost
         resend(packet)

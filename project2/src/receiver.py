@@ -11,17 +11,20 @@ s = socket(AF_INET,SOCK_DGRAM)
 s.bind((host,port))
 addr = (host,port)
 buf=1024
+receivedNum = 0
 
 def recieve(seqNum):
     global s
     global buf
     global addr
+    global receivedNum
 
     sys.stderr.write("in receive()\n")
     data,addr = s.recvfrom(buf)
     data = data.decode()
     receivedSeqNum = data[:1] #received sequence ADD TO CIRCULAR QUEUE
     writeData = data[1:]
+    receivedNum = receivedSeqNum
     if (int(receivedSeqNum) == seqNum):
         sys.stdout.write(writeData)
     else:
@@ -43,17 +46,22 @@ def send(ackNum):
 
 
 def main():
-    seqNum = 0 #init seqnum
+    global receivedNum
+    #seqNum = 0 #init seqnum
     try:
         while(True):
             s.settimeout(2)
-            recieve(seqNum)
-            ackNum = seqNum + 1 #Num to send as cumulative ack
+            #recieve(seqNum)
+            recieve(receivedNum)
+            #ackNum = seqNum + 1 #Num to send as cumulative ack
+            ackNum = receivedNum + 1
             if (ackNum == 10): ackNum = 0 #after 9 comes zero
             sys.stderr.write("Sending ack: "+ str(ackNum) + "\n") #TODO: debug
             send(ackNum)
-            seqNum = seqNum + 1 #increase next expected seqNum
-            if (seqNum == 10): seqNum = 0 #after 9 comes zero
+            #seqNum = seqNum + 1 #increase next expected seqNum
+            receivedNum += 1
+            #if (seqNum == 10): seqNum = 0 #after 9 comes zero
+            if (receivedNum == 1): receivedNum = 0
 
     except timeout:
         #end
