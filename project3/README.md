@@ -1,6 +1,6 @@
 # Project 3: Confundo
 
-**Project assigned and created by Dr. Jun Yuan** //Please fix it. I do not claim intellectual rights of the project. It was created by someone else
+**Project assigned for Computer Networks & the Internet** //Please fix it. I do not claim intellectual rights of the project. It was created by someone else
 
 **TEAM**
 
